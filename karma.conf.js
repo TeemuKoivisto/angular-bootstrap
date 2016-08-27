@@ -1,6 +1,10 @@
 // Karma configuration
 // Generated on Wed Jul 20 2016 14:45:03 GMT+0300 (Suomen kesäaika)
 
+if (!process.env.NODE_ENV) {
+  require("dotenv").config();
+}
+
 module.exports = function(config) {
   config.set({
 

@@ -16,6 +16,7 @@ MyApp.config(function($stateProvider, $urlRouterProvider) {
     })
     .state("main.login", {
       url: "login",
+      controller: "LoginController",
       templateUrl: "templates/login/login.html",
     })
     .state("main.other", {

@@ -1,4 +1,10 @@
+"use strict";
+
 const webdriver = require("selenium-webdriver");
+const By = webdriver.By;
+const chai = require("chai");
+const expect = chai.expect;
+const APP_URL = "https://simple-angular-bootstrap.herokuapp.com";
 
 const driver = new webdriver.Builder().
    withCapabilities(webdriver.Capabilities.chrome()).
@@ -8,20 +14,45 @@ describe("wedbdriver", () => {
   beforeEach(function() {
     this.timeout(6000);
   })
-  after(function(done) {
+  after((done) => {
     driver.quit().then(done);
   });
-  describe("test suite 1", () => {
-    it("should be able open Grappa", function(done) {
+  describe("example test suite 1", () => {
+    it("should be able open My App", function(done) {
       this.timeout(6000);
-      driver.get("http://localhost:3333").then(done);
+      driver.get(APP_URL).then(done);
     })
-    it("should be able to click login", function(done) {
-      // const links = driver.findElement(webdriver.By.cssSelector("a[href=/login]")).click();
-      const link = driver.findElement(webdriver.By.linkText("Log in")).click();
-      driver.getCurrentUrl().then(url => {
-        console.log(url);
-        done();
+    describe("/login", () => {
+      it("should be able to click navbar's Log in -link", (done) => {
+        // const links = driver.findElement(webdriver.By.cssSelector("a[href=/login]")).click();
+        const link = driver.findElement(By.linkText("Log in")).click();
+        driver.getCurrentUrl().then(url => {
+          expect(url).to.equal(APP_URL+"/#/login");
+          done();
+        })
+      })
+      it("should be able to write to /login view's input fields", (done) => {
+        // const links = driver.findElement(webdriver.By.cssSelector("a[href=/login]")).click();
+        driver.findElement(By.name("email")).sendKeys('webdriver');
+        driver.findElement(By.name("password")).sendKeys('testpass');
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+        // console.log(driver.Type)
+        driver.manage().logs().get("browser").then(logs => {
+          console.log(logs)
+        })
+        driver.getCurrentUrl().then(url => {
+          expect(url).to.equal(APP_URL+"/#/login");
+          done();
+        })
+      })
+    })
+    describe("/other", () => {
+      it("should be able to click navbar's Other -link", (done) => {
+        const link = driver.findElement(By.linkText("Other")).click();
+        driver.getCurrentUrl().then(url => {
+          expect(url).to.equal(APP_URL+"/#/other");
+          done();
+        })
       })
     })
   })
