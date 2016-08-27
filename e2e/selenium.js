@@ -4,7 +4,8 @@ const webdriver = require("selenium-webdriver");
 const By = webdriver.By;
 const chai = require("chai");
 const expect = chai.expect;
-const APP_URL = "https://simple-angular-bootstrap.herokuapp.com";
+const APP_URL = "http://simple-angular-bootstrap.herokuapp.com";
+// const APP_URL = "http://localhost:3333";
 
 const driver = new webdriver.Builder().
    withCapabilities(webdriver.Capabilities.chrome()).
@@ -24,7 +25,6 @@ describe("wedbdriver", () => {
     })
     describe("/login", () => {
       it("should be able to click navbar's Log in -link", (done) => {
-        // const links = driver.findElement(webdriver.By.cssSelector("a[href=/login]")).click();
         const link = driver.findElement(By.linkText("Log in")).click();
         driver.getCurrentUrl().then(url => {
           expect(url).to.equal(APP_URL+"/#/login");
@@ -32,9 +32,8 @@ describe("wedbdriver", () => {
         })
       })
       it("should be able to write to /login view's input fields", (done) => {
-        // const links = driver.findElement(webdriver.By.cssSelector("a[href=/login]")).click();
-        driver.findElement(By.name("email")).sendKeys('webdriver');
-        driver.findElement(By.name("password")).sendKeys('testpass');
+        driver.findElement(By.name("email")).sendKeys("webdriver");
+        driver.findElement(By.name("password")).sendKeys("testpass");
         driver.findElement(By.xpath("//button[@type='submit']")).click();
         // console.log(driver.Type)
         driver.manage().logs().get("browser").then(logs => {
